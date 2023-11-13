@@ -3,11 +3,11 @@ import json
 import bcrypt
 from django.conf import settings
 from user.tags import USER, ADMIN
-from user.models import User, Admin
 from datetime import datetime,timedelta
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from custom_lib.api_view_class import CustomAPIView
+from user.models import User, Admin, UserProjectAssignment
 
 
 class LoginView(CustomAPIView):
@@ -33,6 +33,11 @@ class LoginView(CustomAPIView):
         result = bcrypt.checkpw(password, userBytes)
         if not result:
             raise Exception(13011)
+        
+        if userObj.current_project==None:
+            userProjectObjs=UserProjectAssignment.objects.filter(user_id=userObj.pk)
+            if not userProjectObjs.exists():
+                raise Exception(12049)
 
         userId=userObj.pk
         payload = {
