@@ -251,24 +251,12 @@ def snake_case_to_title(s):
     title_words = [word.capitalize() for word in words]
     return ' '.join(title_words)
 
-email = create_swagger_params(name="email", type="string",header_type="header")
-password = create_swagger_params(name="password", type="string",header_type="header")
-project = create_swagger_params(name="project", type="string",header_type="header", required=False)
-userId = create_swagger_params(name="userId", type="int",header_type="header")
+
 token = create_swagger_params(name="token", type="string",header_type="header")
-newToken = create_swagger_params(name="newToken", type="string",header_type="header")
 jwtToken = create_swagger_params(name="Authorization", type="string",header_type="header")
 multiple_files = create_swagger_file_params(name="files", type="multiple")
 single_file = create_swagger_file_params(name="file", type="single")
-financial_databook = create_swagger_file_params(name="financial_databook", type="single")
-private_benchmark = create_swagger_file_params(name="private_benchmark", type="single")
-cost_improvement_levers = create_swagger_file_params(name="cost_improvement_levers", type="single")
-peer_companies = create_swagger_file_params(name="peer_companies", type="single")
 
-
-admin_login = [email,password]
-user_login = [email,password]
-post_login = []
-post_upload = [token]
-admin_post_login = []
-new_user = [userId,newToken]
+post_login = [jwtToken]
+post_upload = [jwtToken, token]
+admin_post_login = [jwtToken]

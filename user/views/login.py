@@ -6,6 +6,7 @@ from user.tags import USER, ADMIN
 from datetime import datetime,timedelta
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
+from custom_lib.helper import extract_username
 from custom_lib.api_view_class import CustomAPIView
 from user.models import User, Admin, UserProjectAssignment
 
@@ -51,7 +52,7 @@ class LoginView(CustomAPIView):
                 "userId": userObj.pk
                 }
         jwtToken = jwt.encode(payload, 'ADITYA-SECRET', algorithm='HS256')
-        return Response({"auth": jwtToken, "userId": userId})
+        return Response({"auth": jwtToken, "userId": userId, "userName": extract_username(email=email)})
         
 
 class AdminLoginView(CustomAPIView):
