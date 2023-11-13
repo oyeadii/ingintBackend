@@ -49,7 +49,7 @@ class ProjectSwitchView(PostLoginAPIView):
         except User.DoesNotExist:
             raise Exception(11003)
         
-        user.current_project = userProject
+        user.current_project = userProject.project
         user.save()
 
         return Response({
