@@ -55,7 +55,7 @@ def handle_user_assignment_v2(datas, project_object, request):
         # Step 1: Check Email
         if end_point=='project_details':
             try:
-                userObj = User.objects.get(user_id__iexact=data['user_id'])
+                userObj = User.objects.get(id__iexact=data['user_id'])
                 data["email"] = userObj.email
             except User.DoesNotExist:
                 continue
