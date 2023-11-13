@@ -55,7 +55,6 @@ class UsersDetailsView(AdminAPIView):
             userList = userList.annotate(is_admin=F("userprojectassignment__is_admin"))
             userList = userList.annotate(project_id_usa=F("userprojectassignment__project_id"))
 
-        userList = userList.filter(tenant_id=request.tenant_id)
         project_user = []
 
         # Check if the page in params displays the data pagination; if not, all items on a single page.

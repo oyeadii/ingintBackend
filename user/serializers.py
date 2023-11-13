@@ -167,8 +167,6 @@ class UserDataSerializer(BaseSerializer):
 
 class AddDataUserSerializer(BaseSerializer):
     email = serializers.CharField(required=True)
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     admin = serializers.BooleanField(required=True)
     project_id = serializers.IntegerField(required=True, allow_null=True)
 

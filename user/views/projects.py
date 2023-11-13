@@ -39,7 +39,7 @@ class ProjectView(AdminAPIView):
         
         projects = filterset.qs.values("id", "project_name", "created_at")
         projects = (projects.annotate(assignments=Count('userprojectassignment__user_id', distinct=True))
-                    .filter(active=True,tenant_id=request.tenant_id))
+                    .filter(active=True))
         if column:
             if sort_order=="desc":
                 column = "-"+column
