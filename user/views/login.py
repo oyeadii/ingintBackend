@@ -34,12 +34,14 @@ class LoginView(CustomAPIView):
         if not result:
             raise Exception(13011)
         
-        if userObj.current_project==None:
+        try:
+            userObj.current_project
+        except:
             userProjectObjs=UserProjectAssignment.objects.filter(user_id=userObj.pk)
             if not userProjectObjs.exists():
                 raise Exception(12049)
             user=User.objects.get(id=userObj.pk)
-            user.current_project=userProjectObjs.first()
+            user.current_project=userProjectObjs.first().project
             user.save()
 
         userId=userObj.pk
