@@ -31,7 +31,7 @@ class UsersDetailsView(AdminAPIView):
         if not filterset.is_valid():
             return Response(filterset.errors, status=400)
 
-        userList = filterset.qs.values('id', 'email', 'username', 'is_sa', 'first_name', 'last_name')
+        userList = filterset.qs.values('id', 'email')
         if column:
             if sort_order == "desc":
                 column = "-" + column
