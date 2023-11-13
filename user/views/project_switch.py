@@ -1,8 +1,8 @@
 import json
 from user.tags import USER
 from rest_framework.response import Response
-from user.models import UserProjectAssignment
 from drf_yasg.utils import swagger_auto_schema
+from user.models import UserProjectAssignment, User
 from custom_lib.api_view_class import PostLoginAPIView
 
 
@@ -44,6 +44,14 @@ class ProjectSwitchView(PostLoginAPIView):
         except UserProjectAssignment.DoesNotExist:
             raise Exception(12013)
         
+        try:
+            user=User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            raise Exception(11003)
+        
+        user.current_project = userProject
+        user.save()
+
         return Response({
                         "current_project": userProject.user.current_project.project_name,
                         "token": userProject.user.current_project.namespace
