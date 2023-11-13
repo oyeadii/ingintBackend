@@ -45,7 +45,6 @@ class ProjectView(AdminAPIView):
                 column = "-"+column
         else:
             column = '-created_at'
-        projects = projects.annotate(engagement=F("engagement__engagement")).order_by(column)
         if int(request.query_params.get("page",0)):
             paginator = CustomPagination()
             page = paginator.paginate_queryset(projects, request)
@@ -53,7 +52,6 @@ class ProjectView(AdminAPIView):
                 return paginator.get_paginated_response({"project": page})
         else:
             user_id = int(request.query_params.get("user_id",0))
-            # projects = projects.annotate(engagement=F("engagement__engagement"))
             user_project = []
             if user_id:
                 new_project = []

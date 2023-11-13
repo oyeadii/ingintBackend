@@ -253,7 +253,6 @@ def snake_case_to_title(s):
 
 email = create_swagger_params(name="email", type="string",header_type="header")
 password = create_swagger_params(name="password", type="string",header_type="header")
-engagement = create_swagger_params(name="engagement", type="string",header_type="header", required=False)
 project = create_swagger_params(name="project", type="string",header_type="header", required=False)
 userId = create_swagger_params(name="userId", type="int",header_type="header")
 token = create_swagger_params(name="token", type="string",header_type="header")
