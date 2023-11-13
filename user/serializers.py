@@ -1,0 +1,255 @@
+from rest_framework import serializers
+from custom_lib.base_serializer import BaseSerializer
+
+
+class DeleteProjectSerializer(BaseSerializer):
+    delete_project_id=serializers.IntegerField(required=True)
+
+class EngagementSerializer(BaseSerializer):
+    engagement_id = serializers.IntegerField(required=True)
+
+class AdminPostQuestionsSerializer(BaseSerializer):
+    engagement_id = serializers.IntegerField(required=True)
+    sub_use_case_id = serializers.IntegerField(required=True)
+    question = serializers.CharField(required=True)
+
+class PostQuestionsSerializer(BaseSerializer):
+    sub_use_case_id = serializers.IntegerField(required=True)
+    question = serializers.CharField(required=True)
+
+class UserPostQuestionsSerializer(BaseSerializer):
+    question = serializers.CharField(required=True)
+
+class UpdateQuestionsSerializer(BaseSerializer):
+    question_id = serializers.IntegerField(required=True)
+    question = serializers.CharField(required=True)
+
+class QuestionsDeleteSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+
+class AdminPostTemplateStoreSerializer(BaseSerializer):
+    engagement_id = serializers.IntegerField(required=True)
+    sub_use_case_id = serializers.IntegerField(required=True)
+    role = serializers.CharField(required=False)
+    goal = serializers.CharField(required=False)
+    examples = serializers.CharField(required=False)
+    output_format = serializers.CharField(required=False)
+
+class PostTemplateStoreSerializer(BaseSerializer):
+    sub_use_case_id = serializers.IntegerField(required=True)
+    role = serializers.CharField(required=False)
+    goal = serializers.CharField(required=False)
+    examples = serializers.CharField(required=False)
+    output_format = serializers.CharField(required=False)
+
+class TemplateUpdateSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+    to_update = serializers.DictField(required=True)
+
+class TemplateDeleteSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+    sub_use_case_id = serializers.IntegerField(required=True)
+
+class AdminRequestSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+    email = serializers.CharField(required=True)
+    engagement = serializers.CharField(required=True)
+    project_name = serializers.CharField(required=True)
+    is_admin = serializers.IntegerField(required=True)
+
+class AdminRequestDeleteSerializer(BaseSerializer):
+    request_id = serializers.IntegerField(required=True)
+
+class AdSignUpSerializer(BaseSerializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(min_length=8, required=True)
+
+class AdminPostWSNSerializer(BaseSerializer):
+    engagement_id = serializers.IntegerField(required=True)
+    sub_use_case_id = serializers.IntegerField(required=True)
+    hypotheses = serializers.CharField(required=True)
+    implications = serializers.CharField(required=True)
+    remediations = serializers.CharField(required=True)
+    remediation_projects = serializers.CharField(required=True)
+
+class PostWSNSerializer(BaseSerializer):
+    sub_use_case_id = serializers.IntegerField(required=True)
+    hypotheses = serializers.CharField(required=True)
+    implications = serializers.CharField(required=True)
+    remediations = serializers.CharField(required=True)
+    remediation_projects = serializers.CharField(required=True)
+
+class UpdateWSNSerializer(BaseSerializer):
+    wsn_id = serializers.IntegerField()
+    hypotheses = serializers.CharField(required=True)
+    implications = serializers.CharField(required=True)
+    remediations = serializers.CharField(required=True)
+    remediation_projects = serializers.CharField(required=True)
+
+class WSNDeleteSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+
+class PostEngAdminSerializer(BaseSerializer):
+    email = serializers.CharField(required=True)
+    engagement = serializers.CharField(required=True)
+
+class DeleteAdminSerializer(BaseSerializer):
+    delete_user_id=serializers.IntegerField(required=True)
+
+class SignUpSerializer(BaseSerializer):
+    email = serializers.EmailField(required=True)
+
+class AdminSignUpSerializer(BaseSerializer):
+    email = serializers.EmailField(required=True)
+    project = serializers.CharField(required=True)
+    is_admin = serializers.IntegerField(required=True)
+    is_existing = serializers.IntegerField(required=True)
+
+class UpdateUserSerializer(BaseSerializer):
+    to_update = serializers.DictField(required=True)
+    update_user_id=serializers.IntegerField(required=True)
+
+class DeleteUserSerializer(BaseSerializer):
+    delete_user_id=serializers.IntegerField(required=True)
+
+class FileDeleteSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+
+class FileTagSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+    category_id = serializers.IntegerField(required=True)
+
+class ProjectRegistrationSerializer(BaseSerializer):
+    engagement = serializers.CharField(required=True)
+    project = serializers.CharField(required=True)
+    same_users = serializers.CharField(required=True)
+
+class LoginSerializer(BaseSerializer):
+    email = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+
+class LoginAdminSerializer(BaseSerializer):
+    admin = serializers.BooleanField()
+
+class AdminLoginSerializer(BaseSerializer):
+    email = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+class RequestAccessSerializer(serializers.Serializer):
+    email = serializers.CharField(required=True)
+    message = serializers.CharField(required=True)
+
+class PostWSNIssueSerializer(BaseSerializer):
+    hypotheses = serializers.CharField(required=True)
+
+class WSNIssueDeleteSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+
+class FeedbackSerializer(BaseSerializer):
+    feedback_type = serializers.CharField(required=True)
+    feedback_text = serializers.CharField(required=True)
+    user_query = serializers.CharField(required=True)
+    ai_response = serializers.CharField(required=True)
+    extra_feedback = serializers.ListField(required=False)
+
+
+class UserDataSerializer(BaseSerializer):
+    page = serializers.IntegerField(required=True)
+    type = serializers.CharField(required=True)
+    details = serializers.BooleanField(required=True)
+    project_id = serializers.IntegerField(required=False)
+    column = serializers.CharField(required=False)
+    order_by = serializers.CharField(required=False)
+
+class AddDataUserSerializer(BaseSerializer):
+    email = serializers.CharField(required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=False, allow_blank=True, allow_null=True)
+    admin = serializers.BooleanField(required=True)
+    project_id = serializers.IntegerField(required=True, allow_null=True)
+
+class AddUserSerializer(BaseSerializer):
+    user_data = AddDataUserSerializer(many=True)
+
+class EditUserSerializer(BaseSerializer):
+    to_update = serializers.DictField(required=True)
+    user_id=serializers.IntegerField(required=True)
+
+class RemoveUserSerializer(BaseSerializer):
+    user_id=serializers.IntegerField(required=True)
+
+class ProjectDataSerializer(BaseSerializer):
+    page = serializers.IntegerField(required=True)
+    user_id = serializers.IntegerField(required=False)
+    column = serializers.CharField(required=False)
+    order_by = serializers.CharField(required=False)
+
+class ProjectUpdateSerializer(BaseSerializer):
+    project_id = serializers.IntegerField(required=True)
+    to_update = serializers.DictField(required=True)
+
+class ProjectDeleteSerializer(BaseSerializer):
+    project_id=serializers.IntegerField(required=True)
+
+class ProjectUserSerializer(BaseSerializer):
+    user_id = serializers.IntegerField(required=True)
+    admin = serializers.BooleanField(required=True)
+
+class ProjectAddSerializer(BaseSerializer):
+    user_data = ProjectUserSerializer(many=True)
+    project = serializers.CharField(required=True)
+
+class UserProjectAssignmentDataSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+    param = serializers.CharField(required=True)
+    is_admin = serializers.BooleanField(default=0)
+    remove = serializers.BooleanField(default=0)
+
+class UserProjectAssignmentSerializer(BaseSerializer):
+    details = UserProjectAssignmentDataSerializer(many=True)
+    id = serializers.IntegerField(required=True)
+
+class PageDataSerializer(BaseSerializer):
+    q=serializers.CharField(required=True)
+
+class PostQueryQuestionsSerializer(BaseSerializer):
+    question_id = serializers.IntegerField(required=True)
+    question = serializers.CharField(required=True)
+    answer = serializers.CharField(required=True)
+    chunks = serializers.ListField(child=serializers.DictField(), required=True)
+    custom_chunk = serializers.DictField(required=False)
+
+class AuditTrailSerializer(BaseSerializer):
+    question_id = serializers.IntegerField(required=True)
+
+class AuditSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+
+class RetrieveImageSerializer(BaseSerializer):
+    image_path = serializers.CharField(required=True)
+    coordinates = serializers.DictField(required=False)
+
+class CustomChunkSerializer(BaseSerializer):
+    question_id = serializers.IntegerField(required=True)
+    topic = serializers.CharField(required=True)
+    sub_topic = serializers.CharField(required=True)
+    text = serializers.CharField(required=True)
+
+#Engagement
+class EngagementViewSerializer(BaseSerializer):
+    page = serializers.IntegerField(required=True)
+    column = serializers.CharField(required=False)
+    order_by = serializers.CharField(required=False)
+
+
+class EngagementUpdateSerializer(BaseSerializer):
+    engagement_id = serializers.IntegerField(required=True)
+    to_update = serializers.DictField(required=True)
+
+
+class EngagementDeleteSerializer(BaseSerializer):
+    engagement_id=serializers.IntegerField(required=True)
