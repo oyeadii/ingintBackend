@@ -7,7 +7,7 @@ from custom_lib.helper import admin_post_login, valid_serializer
 from custom_lib.api_view_class import AdminAPIView, CustomAPIView
 from django.db.models import F,Count, OuterRef, IntegerField, Subquery, Q
 from user.helper import CustomPagination, ProjectFilter, handle_user_assignment_v2
-from user.serializers import ProjectDeleteSerializer, ProjectDataSerializer, ProjectAddSerializer, UserProjectAssignmentSerializer, PageDataSerializer
+from user.serializers import ProjectDeleteSerializer, ProjectDataSerializer, ProjectAddSerializer, UserProjectAssignmentSerializer, PageDataSerializer, ProjectUpdateSerializer
 
 
 class ProjectsView(CustomAPIView):
@@ -98,6 +98,26 @@ class ProjectView(AdminAPIView):
         if project:
             handle_user_assignment_v2(emails, project, request)
         return Response("success")
+    
+    @swagger_auto_schema(
+        tags=[ADMIN],
+        manual_parameters= admin_post_login,
+        request_body=ProjectUpdateSerializer
+    )
+    def put(self,request):
+        data = valid_serializer(ProjectUpdateSerializer(data=request.data), error_code=13005)
+        project_id = int(data["project_id"])
+        to_update = data["to_update"]
+        # Check if 'project_name' is not in the update data then raise an exception if it's missing.
+        if "project_name" not in to_update:
+            raise Exception(13025)
+        # Check if the given project exists in the 'Project' table then raise an exception if it does not.
+        try:
+            Project.objects.get(id=project_id)
+        except Project.DoesNotExist:
+            raise Exception(12013)
+        Project.objects.filter(id=project_id).update(project_name= to_update["project_name"])
+        return Response({"id":project_id, "updated_data":to_update})
     
     @swagger_auto_schema(
         tags=[ADMIN],
