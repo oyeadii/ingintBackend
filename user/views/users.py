@@ -168,5 +168,5 @@ class UsersDetailsView(AdminAPIView):
             User.objects.get(id=delete_user)
         except User.DoesNotExist:
             raise Exception(12007)
-        User.objects.filter(user_id=delete_user).update(active=0)
+        User.objects.filter(id=delete_user).update(active=0)
         return Response({"id":delete_user})
