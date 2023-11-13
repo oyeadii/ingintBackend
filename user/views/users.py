@@ -152,7 +152,7 @@ class UsersDetailsView(AdminAPIView):
             except UserProjectAssignment.DoesNotExist:
                 new_assign = UserProjectAssignment(user_id=update_user_id, project_id=project_id)
                 new_assign.save()
-        User.objects.filter(user_id=update_user_id).update(**to_update)
+        User.objects.filter(id=update_user_id).update(**to_update)
         return Response({"id":update_user_id, "updated_data":to_update})
     
     @swagger_auto_schema(
