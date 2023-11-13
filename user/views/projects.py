@@ -163,7 +163,7 @@ class UserProjectAssignmentView(AdminAPIView):
         if q=='users':
             datas = Project.objects.filter(id__in=id_list.keys()).values_list('id')
         else:
-            datas = User.objects.filter(id__in=id_list.keys()).values_list('user_id')
+            datas = User.objects.filter(id__in=id_list.keys()).values_list('id')
         currect_user = { user_id[0] for user_id in datas}
         diff_id = list(set(id_list.keys()).difference(currect_user))
         if diff_id:
@@ -175,10 +175,10 @@ class UserProjectAssignmentView(AdminAPIView):
         if q=='users':
             old_datas = {find_user.project_id for find_user in find_users}
         else:
-            old_datas = {find_user.user_id for find_user in find_users}
+            old_datas = {find_user.id for find_user in find_users}
 
         if find_users:
-            id = 'project_id' if q == 'users' else 'user_id'
+            id = 'project_id' if q == 'users' else 'id'
             for value in find_users:
                 current_id = getattr(value,id)
                 if current_id in id_list.keys():
