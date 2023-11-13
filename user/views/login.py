@@ -38,6 +38,8 @@ class LoginView(CustomAPIView):
             userProjectObjs=UserProjectAssignment.objects.filter(user_id=userObj.pk)
             if not userProjectObjs.exists():
                 raise Exception(12049)
+            userObj.current_project=userProjectObjs.first()
+            userObj.save()
 
         userId=userObj.pk
         payload = {
