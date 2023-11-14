@@ -15,7 +15,7 @@ from custom_lib.api_view_class import PostUploadAPIView, PostLoginAPIView
 
 
 class AnalyzeFileView(PostUploadAPIView):
-    def analyze_files(self, project, token, api_key, request=None):
+    def analyze_files(self, project, token, api_key):
         storage_service = StorageService()
         bucket_name=settings.AWS_BUCKET_NAME
         objects = storage_service.list_files(token, bucket_name)
@@ -36,7 +36,7 @@ class AnalyzeFileView(PostUploadAPIView):
                 text_content = extract_text_from_file(file_contents, filename)
                 text_list.append(text_content)
 
-                category = file_tagger.classify_text(text=text_content, categories=categories[1:],request=request)
+                category = file_tagger.classify_text(text=text_content, categories=categories[1:])
                 tagObj = ProjectDataCategory.objects.filter(name__iexact=category)
 
                 if not tagObj.exists():
@@ -72,13 +72,13 @@ class AnalyzeFileView(PostUploadAPIView):
         token=request.namespace
         project=request.project
         
-        response = StreamingHttpResponse(self.analyze_files(project, token, api_key, request=request), content_type='text/event-stream')
+        response = StreamingHttpResponse(self.analyze_files(project, token, api_key), content_type='text/event-stream')
         response['Access-Control-Allow-Origin'] = '*'
         return response
 
 
 class AnalyzeWebsiteView(PostLoginAPIView):
-    def analyze_website(self, project, api_key, link,request=None):
+    def analyze_website(self, project, api_key, link):
         crawler=wch.Crawler(url=link)
         website_content=crawler.get_all_site_content()
         website_id = str(uuid.uuid4())
@@ -87,7 +87,7 @@ class AnalyzeWebsiteView(PostLoginAPIView):
 
         categories = list(ProjectDataCategory.objects.values_list('name', flat=True))
         file_tagger = FileTagger(api_key=api_key)
-        category = file_tagger.classify_text(text=website_content, categories=categories[1:],request=request)
+        category = file_tagger.classify_text(text=website_content, categories=categories[1:])
         tagObj = ProjectDataCategory.objects.filter(name__iexact=category)
         if not tagObj.exists():
             category_id = 1
@@ -124,6 +124,6 @@ class AnalyzeWebsiteView(PostLoginAPIView):
             project.namespace = generate_token()
             project.save()
 
-        response = StreamingHttpResponse(self.analyze_website(project, api_key, link, request=request), content_type='text/event-stream')
+        response = StreamingHttpResponse(self.analyze_website(project, api_key, link), content_type='text/event-stream')
         response['Access-Control-Allow-Origin'] = '*'
         return response
