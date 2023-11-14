@@ -247,13 +247,13 @@ class TASummaryView(PostLoginAPIView):
     @swagger_auto_schema(
         tags=[DATA_ANALYTICS],
         manual_parameters=post_login,
-        query_serializer=TASummarySerializer
+        request_body=TASummarySerializer
     )
-    def get(self, request):
+    def post(self, request):
         user_id=request.userid
         api_key=request.apikey
         project=request.project
-        data = valid_serializer(TASummarySerializer(data=request.query_params), error_code=13005)
+        data = valid_serializer(TASummarySerializer(data=request.data), error_code=13005)
         summary_prompt = SUMMARY_PROMPT.get(data["commentary_type"])
         if not summary_prompt:
             raise Exception(13022)
