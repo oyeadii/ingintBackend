@@ -1,9 +1,10 @@
 import jwt
 from django import db
+from django.conf import settings
 from user.models import User, Admin
 from rest_framework import authentication
 
- 
+
 class BaseAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
         auth = None
@@ -27,6 +28,7 @@ class BaseAuthentication(authentication.BaseAuthentication):
         request.project = projObj
         request.userid = user.pk
         request.login_user = user
+        request.apikey = settings.OPENAI_API_KEY
 
     def _close_db_connections(self):
         db.connections.close_all()
