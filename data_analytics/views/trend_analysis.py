@@ -243,10 +243,10 @@ class TACommentaryView(PostUploadAPIView):
         return StreamingHttpResponse(resp.run_trend_analysis(question=question, summary=summary, content=content, columns=columns if columns else None), content_type="text/event-stream")
 
 
-class TASummaryView(PostLoginAPIView):
+class TASummaryView(PostUploadAPIView):
     @swagger_auto_schema(
         tags=[DATA_ANALYTICS],
-        manual_parameters=post_login,
+        manual_parameters=post_upload,
         request_body=TASummarySerializer
     )
     def post(self, request):
