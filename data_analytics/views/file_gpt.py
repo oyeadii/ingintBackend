@@ -9,6 +9,7 @@ from data_analytics.helper import file_gpt as fgh
 from data_analytics.common_import import FileAnalyzer
 from user.models import ProjectDataCategory, ProjectData
 from data_analytics.serializers import FileGPTSerializer
+from data_analytics.prompts import file_gpt_prompts as fgp
 from custom_lib.api_view_class import PostLoginAPIView, PostUploadAPIView
 from custom_lib.helper import post_login,post_upload,single_file,valid_serializer,generate_token, file_name_changer
 
@@ -67,9 +68,9 @@ class FileGPTQueryView(PostUploadAPIView):
         user_id=request.userid
         api_key=request.apikey
         project=request.project
-        template=request.template
-        model_name=request.modelname
-        temperature=request.temperature
+        template=fgp.template
+        model_name=fgp.model_name
+        temperature=fgp.temperature
         data = valid_serializer(FileGPTSerializer(data=request.data), error_code=13005)
 
         fileObj=ProjectData.objects.filter(project=project)
