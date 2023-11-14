@@ -25,7 +25,7 @@ class TAFileUploadView(PostLoginAPIView):
     def get(self, request, *args, **kwargs):
         project=request.project
 
-        filesObj = ProjectData.objects.filter(project=project, is_general=0).values('id', 'name')
+        filesObj = ProjectData.objects.filter(project=project, is_general=0, is_delete=0).values('id', 'name')
         if not filesObj.exists():
             return Response({})
         return Response(list(filesObj))
@@ -185,7 +185,7 @@ class TACommentaryView(PostUploadAPIView):
         )
     def get(self,request):
         project=request.project
-        filesObj=ProjectData.objects.filter(project=project, is_delete=0)
+        filesObj=ProjectData.objects.filter(project=project, is_general=1, is_delete=0)
         if not filesObj.exists():
             return Response({})
         df_result=pd.DataFrame(list(filesObj.values('id','name')))
