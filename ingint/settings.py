@@ -179,7 +179,7 @@ DEFAULT_FILE_STORAGE = envs.get("DEFAULT_FILE_STORAGE", "django.core.files.stora
 # files management
 AWS_S3_ACCESS_KEY_ID = envs.get("AWS_S3_ACCESS_KEY_ID", "")
 AWS_S3_SECRET_ACCESS_KEY = envs.get("AWS_S3_SECRET_ACCESS_KEY", "")
-AWS_BUCKET_NAME = envs.get("AWS_FILE_STORAGE_BUCKET_NAME", "")
+AWS_BUCKET_NAME = envs.get("AWS_BUCKET_NAME", "")
 AWS_S3_REGION_NAME = envs.get("AWS_S3_REGION_NAME", "")
 AWS_DEFAULT_ACL = envs.get("AWS_DEFAULT_ACL", "private")
 # vectordb creds
