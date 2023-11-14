@@ -97,3 +97,10 @@ class CustomChunkSerializer(BaseSerializer):
     topic = serializers.CharField(required=True)
     sub_topic = serializers.CharField(required=True)
     text = serializers.CharField(required=True)
+
+class FileDeleteSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+
+class FileTagSerializer(BaseSerializer):
+    id = serializers.IntegerField(required=True)
+    category_id = serializers.IntegerField(required=True)
