@@ -76,7 +76,7 @@ class TAFileUploadView(PostLoginAPIView):
                 all_data[sheet.strip()]=sheet_data
 
         data={"all_data": all_data}
-        dataObj = upload_project_data(api_key, project, file_name, data, request=request)
+        dataObj = upload_project_data(api_key, project, file_name, data)
         dataObj.save()
         return Response({"message":"File uploaded successfully!"})
 
