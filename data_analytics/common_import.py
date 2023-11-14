@@ -138,7 +138,7 @@ class FileAnalyzer:
                 category_id = tagObj.first().id
             
         metadata = {"file_name": filename, "doc_id": file_id, "category_id": category_id}
-        fileObj = ProjectData(data_id=file_id, name=filename, category_id=category_id, project=self.project, sub_use_case=self.sub_use_case, is_general=is_general)
+        fileObj = ProjectData(data_id=file_id, name=filename, category_id=category_id, project=self.project, is_general=is_general)
         fileObj.save()
         self.pinecone_manager.add_files_to_index(text_list=[text_content], metadata_list=[metadata], namespace=self.project.namespace)
         return "success"
