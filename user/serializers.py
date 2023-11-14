@@ -2,19 +2,6 @@ from rest_framework import serializers
 from custom_lib.base_serializer import BaseSerializer
 
 
-class DeleteProjectSerializer(BaseSerializer):
-    delete_project_id=serializers.IntegerField(required=True)
-
-class QuestionsDeleteSerializer(BaseSerializer):
-    id = serializers.IntegerField(required=True)
-
-class AdSignUpSerializer(BaseSerializer):
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(min_length=8, required=True)
-
-class DeleteAdminSerializer(BaseSerializer):
-    delete_user_id=serializers.IntegerField(required=True)
-
 class SignUpSerializer(BaseSerializer):
     email = serializers.EmailField(required=True)
 
@@ -30,50 +17,6 @@ class UpdateUserSerializer(BaseSerializer):
 
 class DeleteUserSerializer(BaseSerializer):
     delete_user_id=serializers.IntegerField(required=True)
-
-class FileDeleteSerializer(BaseSerializer):
-    id = serializers.IntegerField(required=True)
-
-class FileTagSerializer(BaseSerializer):
-    id = serializers.IntegerField(required=True)
-    category_id = serializers.IntegerField(required=True)
-
-class ProjectRegistrationSerializer(BaseSerializer):
-    project = serializers.CharField(required=True)
-    same_users = serializers.CharField(required=True)
-
-class LoginSerializer(BaseSerializer):
-    email = serializers.CharField(required=True)
-    password = serializers.CharField(required=True)
-
-class LoginAdminSerializer(BaseSerializer):
-    admin = serializers.BooleanField()
-
-class AdminLoginSerializer(BaseSerializer):
-    email = serializers.CharField(required=True)
-    password = serializers.CharField(required=True)
-
-class ChangePasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
-
-class RequestAccessSerializer(serializers.Serializer):
-    email = serializers.CharField(required=True)
-    message = serializers.CharField(required=True)
-
-class PostWSNIssueSerializer(BaseSerializer):
-    hypotheses = serializers.CharField(required=True)
-
-class WSNIssueDeleteSerializer(BaseSerializer):
-    id = serializers.IntegerField(required=True)
-
-class FeedbackSerializer(BaseSerializer):
-    feedback_type = serializers.CharField(required=True)
-    feedback_text = serializers.CharField(required=True)
-    user_query = serializers.CharField(required=True)
-    ai_response = serializers.CharField(required=True)
-    extra_feedback = serializers.ListField(required=False)
-
 
 class UserDataSerializer(BaseSerializer):
     page = serializers.IntegerField(required=True)

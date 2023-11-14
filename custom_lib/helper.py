@@ -14,6 +14,7 @@ from docx import Document as Dc
 from django.conf import settings
 from django.utils import timezone
 from openpyxl import load_workbook
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 error_code =settings.ERROR_JSON
@@ -250,6 +251,19 @@ def snake_case_to_title(s):
     words = s.split('_')
     title_words = [word.capitalize() for word in words]
     return ' '.join(title_words)
+
+def file_name_changer(file):
+    file_content = file.read()
+    file_names = file.name.split('.')
+    file_name = "_".join(file_names[:-1])+"."+file_names[-1]
+    return InMemoryUploadedFile(
+       io. BytesIO(file_content),
+        "file_field",
+        file_name,
+        file.content_type,
+        file.tell,
+        file.file 
+    )
 
 
 token = create_swagger_params(name="token", type="string",header_type="header")
