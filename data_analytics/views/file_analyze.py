@@ -69,7 +69,7 @@ class AnalyzeFileView(PostUploadAPIView):
     )
     def get(self, request, *args, **kwargs):
         api_key=request.apikey
-        token=request.token
+        token=request.namespace
         project=request.project
         engagement=request.engagement
         
