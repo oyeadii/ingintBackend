@@ -15,7 +15,7 @@ from custom_lib.api_view_class import PostUploadAPIView, PostLoginAPIView
 
 
 class AnalyzeFileView(PostUploadAPIView):
-    def analyze_files(self, project, engagement, token, api_key, request=None):
+    def analyze_files(self, project, token, api_key, request=None):
         storage_service = StorageService()
         bucket_name=settings.AWS_BUCKET_NAME
         objects = storage_service.list_files(token, bucket_name)
@@ -71,15 +71,14 @@ class AnalyzeFileView(PostUploadAPIView):
         api_key=request.apikey
         token=request.namespace
         project=request.project
-        engagement=request.engagement
         
-        response = StreamingHttpResponse(self.analyze_files(project, engagement, token, api_key, request=request), content_type='text/event-stream')
+        response = StreamingHttpResponse(self.analyze_files(project, token, api_key, request=request), content_type='text/event-stream')
         response['Access-Control-Allow-Origin'] = '*'
         return response
 
 
 class AnalyzeWebsiteView(PostLoginAPIView):
-    def analyze_website(self, project, engagement, api_key, link,request=None):
+    def analyze_website(self, project, api_key, link,request=None):
         crawler=wch.Crawler(url=link)
         website_content=crawler.get_all_site_content()
         website_id = str(uuid.uuid4())
@@ -115,7 +114,6 @@ class AnalyzeWebsiteView(PostLoginAPIView):
     def post(self, request):
         api_key=request.apikey
         project=request.project
-        engagement=request.engagement 
         request_data = request.body.decode('utf-8')
         data = json.loads(request_data)
         link = data.get("link","")
@@ -126,6 +124,6 @@ class AnalyzeWebsiteView(PostLoginAPIView):
             project.namespace = generate_token()
             project.save()
 
-        response = StreamingHttpResponse(self.analyze_website(project, engagement, api_key, link, request=request), content_type='text/event-stream')
+        response = StreamingHttpResponse(self.analyze_website(project, api_key, link, request=request), content_type='text/event-stream')
         response['Access-Control-Allow-Origin'] = '*'
         return response
