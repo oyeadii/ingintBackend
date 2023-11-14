@@ -144,61 +144,12 @@ def extract_text_from_file(file_contents, filename):
         # Assume it's a text file
         return file_contents.decode('utf-8')
     
-def inspect_file(file, extension):
-    READER_MAP = {
-        'csv': pd.read_csv,
-        'tsv': pd.read_csv,
-        'xlsx': pd.read_excel,
-        'xls': pd.read_excel,
-        'xml': pd.read_xml,
-        'json': pd.read_json,
-        'hdf': pd.read_hdf,
-        'hdf5': pd.read_hdf,
-        'feather': pd.read_feather,
-        'parquet': pd.read_parquet,
-        'pkl': pd.read_pickle,
-        'sql': pd.read_sql,
-    }
-
-    try:
-        df = READER_MAP[extension.lower()](file)
-        return df
-    except KeyError:
-        return {"error": 13023}
-    except Exception as e:
-        return {"error": str(e)}
-
-def convert_to_html(content):
-    content=str(content).strip()
-    while content.startswith('\n'):
-        content = content.lstrip('\n')
-    converted_content = html.escape(content)
-    converted_content = converted_content.replace("\n", "<br>")
-    converted_content = converted_content.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
-    converted_content = re.sub(r"^- (.+)$", r"<ul><li>\1</li></ul>", converted_content, flags=re.MULTILINE)
-    converted_content = re.sub(r"^\d+\. (.+)$", r"<ol><li>\1</li></ol>", converted_content, flags=re.MULTILINE)
-    converted_content = re.sub(r"^(\s+)- (.+)$", r"\1<ul><li>\2</li></ul>", converted_content, flags=re.MULTILINE)
-    converted_content = f"<div>{converted_content}</div>"
-    return converted_content
-
-def convert_html_to_string(html_content):
-    string_content = html_content.replace("<br>", "\n")
-    string_content = string_content.replace("&nbsp;&nbsp;&nbsp;&nbsp;", "\t")
-    string_content = re.sub(r"<.*?>", "", string_content)
-    string_content = html.unescape(string_content)
-    return string_content
-
 def check_email(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     if re.match(pattern, email):
         return True
     else:
         return False
-
-def clean_dataframe_from_punctuations(df):
-    df.columns = df.columns.str.replace(r'[^\w\s]+', '', regex=True)
-    df = df.applymap(lambda x: re.sub(r'[^a-zA-Z0-9]+', '_', str(x)))
-    return df
 
 def extract_username(email):
     parts = email.split("@")
@@ -239,18 +190,6 @@ def create_swagger_file_params(name, type):
             type=openapi.TYPE_FILE,
             required=True
         )
-
-def get_answer_length(data):
-    if "choices" in data:
-        choices = data["choices"][0]
-        answer_tokens = choices["delta"].get("content","")
-        return len(answer_tokens)
-    return 0
-
-def snake_case_to_title(s):
-    words = s.split('_')
-    title_words = [word.capitalize() for word in words]
-    return ' '.join(title_words)
 
 def file_name_changer(file):
     file_content = file.read()

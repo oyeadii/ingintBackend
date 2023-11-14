@@ -75,29 +75,6 @@ class UserProjectAssignmentSerializer(BaseSerializer):
 class PageDataSerializer(BaseSerializer):
     q=serializers.CharField(required=True)
 
-class PostQueryQuestionsSerializer(BaseSerializer):
-    question_id = serializers.IntegerField(required=True)
-    question = serializers.CharField(required=True)
-    answer = serializers.CharField(required=True)
-    chunks = serializers.ListField(child=serializers.DictField(), required=True)
-    custom_chunk = serializers.DictField(required=False)
-
-class AuditTrailSerializer(BaseSerializer):
-    question_id = serializers.IntegerField(required=True)
-
-class AuditSerializer(BaseSerializer):
-    id = serializers.IntegerField(required=True)
-
-class RetrieveImageSerializer(BaseSerializer):
-    image_path = serializers.CharField(required=True)
-    coordinates = serializers.DictField(required=False)
-
-class CustomChunkSerializer(BaseSerializer):
-    question_id = serializers.IntegerField(required=True)
-    topic = serializers.CharField(required=True)
-    sub_topic = serializers.CharField(required=True)
-    text = serializers.CharField(required=True)
-
 class FileDeleteSerializer(BaseSerializer):
     id = serializers.IntegerField(required=True)
 

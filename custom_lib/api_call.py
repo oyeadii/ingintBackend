@@ -1,6 +1,8 @@
-import requests
 import json
+import requests
 from django.conf import settings
+
+
 def api_call(**kwrgs):
     try:
         reqArgs = {}
