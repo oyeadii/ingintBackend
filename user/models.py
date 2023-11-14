@@ -43,6 +43,7 @@ class ProjectData(BaseFields):
     name = models.TextField()
     data_id = models.CharField(max_length=500)
     extra_data = models.JSONField(null=True, blank=True)
+    is_general = models.IntegerField(default=0)
     is_delete = models.IntegerField(default=0)
 
     class Meta:
