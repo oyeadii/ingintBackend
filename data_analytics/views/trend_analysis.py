@@ -23,10 +23,9 @@ class TAFileUploadView(PostLoginAPIView):
         manual_parameters=post_login
     )
     def get(self, request, *args, **kwargs):
-        sub_use_case=request.subusecase
         project=request.project
 
-        filesObj = ProjectData.objects.filter(project=project, sub_use_case=sub_use_case).values('id', 'name')
+        filesObj = ProjectData.objects.filter(project=project, is_general=0).values('id', 'name')
         if not filesObj.exists():
             return Response({})
         return Response(list(filesObj))
@@ -39,9 +38,7 @@ class TAFileUploadView(PostLoginAPIView):
     def post(self, request, *args, **kwargs):
         api_key=request.apikey
         project=request.project
-        sub_use_case=request.subusecase
-        if sub_use_case==-1:
-            raise Exception(13008)
+
         file = request.FILES.get('file')
         if not file:
             raise Exception(13007)
@@ -79,7 +76,7 @@ class TAFileUploadView(PostLoginAPIView):
                 all_data[sheet.strip()]=sheet_data
 
         data={"all_data": all_data}
-        dataObj = upload_project_data(api_key, project, sub_use_case, file_name, data, request=request)
+        dataObj = upload_project_data(api_key, project, file_name, data, request=request)
         dataObj.save()
         return Response({"message":"File uploaded successfully!"})
 

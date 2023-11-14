@@ -144,7 +144,7 @@ class FileAnalyzer:
         return "success"
     
 
-def upload_project_data(api_key, project, sub_use_case, file_name, data, is_general=0):
+def upload_project_data(api_key, project, file_name, data, is_general=0):
         categories = list(ProjectDataCategory.objects.values_list('name', flat=True))
         file_tagger = FileTagger(api_key=api_key)
         category = file_tagger.classify_text(text=str(data), categories=categories[1:])
@@ -156,7 +156,6 @@ def upload_project_data(api_key, project, sub_use_case, file_name, data, is_gene
 
         dataObj = ProjectData(
             project=project,
-            sub_use_case=sub_use_case,
             category_id=category_id,
             name=file_name,
             data_id=str(uuid.uuid4()),
