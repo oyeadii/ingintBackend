@@ -11,8 +11,8 @@ from data_analytics.common_import import upload_project_data
 from data_analytics.helper import trend_analysis as ta_helper
 from custom_lib.api_view_class import PostLoginAPIView, PostUploadAPIView
 from custom_lib.helper import post_login, post_upload, single_file, valid_serializer, file_name_changer
-from data_analytics.prompts.trend_analysis_prompts import QUESTIONS_DICT, SUMMARY_PROMPT, TREND_ANALYSIS_PROMPT
 from data_analytics.serializers import TAFileSerializer, TAPlotSerializer, TACommentarySerializer, TASummarySerializer
+from data_analytics.prompts.trend_analysis_prompts import QUESTIONS_DICT, SUMMARY_PROMPT, TREND_ANALYSIS_PROMPT, temperature, model_name
 
 
 class TAFileUploadView(PostLoginAPIView):
@@ -200,8 +200,6 @@ class TACommentaryView(PostUploadAPIView):
         user_id=request.userid
         api_key=request.apikey
         project=request.project
-        model_name=request.modelname
-        temperature=request.temperature
         content = None
         data = valid_serializer(TACommentarySerializer(data=request.data), error_code=13005)
         commentary_type=data["commentary_type"]
@@ -255,8 +253,6 @@ class TASummaryView(PostLoginAPIView):
         user_id=request.userid
         api_key=request.apikey
         project=request.project
-        model_name=request.modelname
-        temperature=request.temperature
         data = valid_serializer(TASummarySerializer(data=request.query_params), error_code=13005)
         summary_prompt = SUMMARY_PROMPT.get(data["commentary_type"])
         if not summary_prompt:

@@ -1,3 +1,6 @@
+temperature = 0
+model_name = "gpt-3.5-turbo"
+
 QUESTIONS_DICT = {
 "financial_trends":'''Financial Trends:
 •What is the company's revenue trends over the past few years? What could be the key drivers behind these trends?
