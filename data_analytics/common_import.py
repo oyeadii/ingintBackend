@@ -120,7 +120,6 @@ class FileAnalyzer:
         self.sub_use_case = sub_use_case
         self.category_dict = category_dict
         self.file_tagger = FileTagger(api_key=api_key)
-        self.ingestion_api_url = settings.INGESTION_API_URL
         self.pinecone_manager = PineconeManager(openai_api_key=self.api_key)
         self.categories = list(ProjectDataCategory.objects.values_list('name', flat=True))
 
