@@ -32,3 +32,6 @@ loguru==0.6.0
 numpy==1.25.2
 tiktoken==0.4.0
 html2text==2020.1.16
+wordcloud==1.9.2
+boto3==1.26.77
+scikit-image==0.21.0
