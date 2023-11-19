@@ -61,3 +61,6 @@ Before you begin, ensure you have the following installed:
    ```
    - The development server will start, and you can access the project at http://localhost:8000/.
 
+## Disclaimer
+   - This repo also includes code forked from https://github.com/run-llama/llama_index.git in folder named custom_llama_index.
+   - This was done to have version control and also to add some custom configuration at the point of file upsert to pinecone.
