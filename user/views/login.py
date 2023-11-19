@@ -26,7 +26,7 @@ class LoginView(CustomAPIView):
 
         userObjs = User.objects.filter(email__iexact=email)
         if not userObjs.exists():
-            raise Exception(13019)
+            raise Exception(13014)
         password = password.encode('utf-8')
         
         userObj=userObjs.first()
@@ -40,7 +40,7 @@ class LoginView(CustomAPIView):
         except:
             userProjectObjs=UserProjectAssignment.objects.filter(user_id=userObj.pk)
             if not userProjectObjs.exists():
-                raise Exception(12049)
+                raise Exception(12003)
             user=User.objects.get(id=userObj.pk)
             user.current_project=userProjectObjs.first().project
             user.save()

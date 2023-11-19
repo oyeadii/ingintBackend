@@ -194,6 +194,6 @@ class TrendGPT(BaseGPT):
                 data = json.dumps({'choices': [{'delta': {'content': f"\n"}}]})
                 yield f'data: {data}\n\n'
         except TypeError:
-            # raise Exception(13026)
+            # raise Exception(13002)
             yield f"data:error:Please provide only numeric data in the file to calculate the ppt change.\n\n"
         yield 'data: [DONE]\n\n'

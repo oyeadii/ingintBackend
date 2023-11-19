@@ -19,21 +19,21 @@ def handle_user_assignment(request_data, serializer, project_object, is_admin):
 
     # Step 2: Check Email
     if not check_email(email):
-        raise Exception(12038)
+        raise Exception(12016)
 
     # Step 3: Fetch or Try to Fetch User
     try:
         userObj = User.objects.get(email__iexact=email)
         try:
             UserProjectAssignment.objects.get(user_id=userObj.id, project=project_object)
-            raise Exception(12056)
+            raise Exception(12001)
         except UserProjectAssignment.DoesNotExist:
             userProject = UserProjectAssignment(user_id=userObj.user_id, project=project_object, is_admin=is_admin)
             userProject.save()
     except User.DoesNotExist:
         try:
             userObj = User.objects.get(email__iexact=email)
-            raise Exception(12050)
+            raise Exception(12002)
         except User.DoesNotExist:
             pass
 
@@ -88,10 +88,10 @@ class AdminCreateUserView(AdminAPIView, FilterView):
         project = Project.objects.filter(project_name__iexact=project_name).first()
         if is_existing:
             if not project:
-                raise Exception(12045)
+                raise Exception(12010)
         else:
             if project:
-                raise Exception(12039)
+                raise Exception(12015)
 
             project = Project(project_name=project_name)
             project.save()
@@ -114,10 +114,10 @@ class AdminCreateUserView(AdminAPIView, FilterView):
         email=to_update.get("email", "")
         if email:
             if not check_email(email):
-                raise Exception(12038)
+                raise Exception(12016)
             userObj=User.objects.filter(email__iexact=email)
             if userObj.exists():
-                raise Exception(12050)
+                raise Exception(12002)
 
         user = User.objects.filter(id=update_user_id).update(**to_update)
         return Response({"id":update_user_id, "updated_data":to_update})
@@ -150,11 +150,11 @@ class CreateNewUserView(AdminAPIView):
         email = data["email"]
 
         if not check_email(email):
-            raise Exception(12038)
+            raise Exception(12016)
 
         try:
             userObj = User.objects.get(email__iexact=email)
-            raise Exception(12050)
+            raise Exception(12002)
         except User.DoesNotExist:
             pass
 

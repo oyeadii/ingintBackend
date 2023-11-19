@@ -93,7 +93,7 @@ class TAFileView(PostLoginAPIView):
         try:       
             filesObj = ProjectData.objects.get(project=project, id=data["file_id"])
         except ProjectData.DoesNotExist:
-            raise Exception(13021)
+            raise Exception(13008)
         
         filesObj.is_delete=1
         filesObj.save()
@@ -113,7 +113,7 @@ class TAPlotDataView(PostLoginAPIView):
         try:
             trendObjs=ProjectData.objects.get(project=project, id=data["file_id"])
         except ProjectData.DoesNotExist:
-            raise Exception(13021)
+            raise Exception(13008)
     
         result_data = {}
         all_data = json.loads(trendObjs.extra_data)
@@ -138,7 +138,7 @@ class TAPlotDataView(PostLoginAPIView):
         try:
             trendObjs=ProjectData.objects.get(project=project, id=file_id)
         except:
-            raise Exception(13021)
+            raise Exception(13008)
         
         all_data = json.loads(trendObjs.extra_data)
         data = all_data["all_data"]
@@ -157,7 +157,7 @@ class TAPlotDataView(PostLoginAPIView):
                 }
         
         if not plot_data:
-            raise Exception(13021)
+            raise Exception(13008)
         
         for key, value in dict(plot_data["y_axis_data"]).items():
             y_axis_data = list(value)
@@ -207,7 +207,7 @@ class TACommentaryView(PostUploadAPIView):
         question=QUESTIONS_DICT.get(commentary_type.lower(),'')
         ta_obj = None
         if not question:
-            raise Exception(13022)
+            raise Exception(13004)
         
         fileObj=ProjectData.objects.filter(project=project, is_delete=0, is_general=1)
         file_ids = fileObj.filter(id__in=selected_ids).values_list('data_id', flat=True)
@@ -256,7 +256,7 @@ class TASummaryView(PostUploadAPIView):
         data = valid_serializer(TASummarySerializer(data=request.data), error_code=13005)
         summary_prompt = SUMMARY_PROMPT.get(data["commentary_type"])
         if not summary_prompt:
-            raise Exception(13022)
+            raise Exception(13004)
         
         resp=ta_helper.TrendGPT(user_id=user_id,
                                 project_id=project.id,

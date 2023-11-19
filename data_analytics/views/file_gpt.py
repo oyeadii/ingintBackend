@@ -76,7 +76,7 @@ class FileGPTQueryView(PostUploadAPIView):
         fileObj=ProjectData.objects.filter(project=project)
         selected_ids = data["selected_ids"]
         if len(selected_ids)==0:
-            raise Exception(13027)
+            raise Exception(13001)
 
         file_ids = list(fileObj.filter(id__in=selected_ids).values_list('data_id', flat=True))
         filter={"doc_id": {"$in":file_ids}}

@@ -42,12 +42,12 @@ class FileTagView(PostUploadAPIView):
         try:
             file_obj = ProjectData.objects.get(id=id, is_delete=0)
         except ProjectData.DoesNotExist:
-            raise Exception(12046)
+            raise Exception(12009)
         
         try:
             new_category = ProjectDataCategory.objects.get(id=category_id)
         except ProjectDataCategory.DoesNotExist:
-            raise Exception(12047)
+            raise Exception(12008)
         
         file_obj.category=new_category
         if file_obj.extra_data:
@@ -77,14 +77,14 @@ class SingleFileDeleteView(PostUploadAPIView):
         try:
             fileObj = ProjectData.objects.get(id=data["id"], is_delete=0)
         except ProjectData.DoesNotExist:
-            raise Exception(12020)
+            raise Exception(12018)
 
         file_id=fileObj.data_id
         dt=json.loads(fileObj.extra_data)
         if dt.get("chunk_ids",""):
             pinecone_manager=PineconeManager(openai_api_key=api_key)
             if pinecone_manager.single_delete(file_id=file_id, namespace=namespace)!="success":
-                raise Exception(12023)
+                raise Exception(12017)
             
         fileObj.is_delete=1
         fileObj.save()
@@ -109,7 +109,7 @@ class AllFilesDeleteView(PostUploadAPIView):
 
         pinecone_manager=PineconeManager(openai_api_key=api_key)
         if pinecone_manager.complete_delete(namespace=namespace)!="success":
-            raise Exception(12023)
+            raise Exception(12017)
         fileObj=ProjectData.objects.filter(project=project)
         fileObj.update(is_delete=1)
         project.namespace = None

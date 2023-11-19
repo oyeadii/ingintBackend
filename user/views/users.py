@@ -26,7 +26,7 @@ class UsersDetailsView(AdminAPIView):
         sort_order = request.GET.get("order_by", None)
         user = request.GET.get("user", None)
         if user and len(user) < 2:
-            raise Exception("Provide two or more characters for this filter", 12041)
+            raise Exception("Provide two or more characters for this filter", 12014)
         filterset = self.filterset_class(request.GET, queryset=User.objects.filter(active=True).all())
         if not filterset.is_valid():
             return Response(filterset.errors, status=400)
@@ -134,11 +134,11 @@ class UsersDetailsView(AdminAPIView):
         email=to_update.get("email", "")
         if email:
             if not check_email(email):
-                raise Exception(12038)
+                raise Exception(12016)
             userObj=User.objects.filter(email__iexact=email)
             # Verify if the email is already present in the Users table and raise an exception if it exists.
             if userObj.exists():
-                raise Exception(12050)
+                raise Exception(12002)
         project_id = to_update.pop("project", None)
         if project_id:
             project_id = int(project_id)

@@ -57,9 +57,9 @@ class AnomalyDetectionView(PostLoginAPIView):
         pct_threshold = float(pct_threshold[0])
         sheet_num = int(sheet_num[0])
         if abs_threshold<0:
-            raise Exception(13025)
+            raise Exception(13003)
         if not (0.0<=pct_threshold<=100.0):
-            raise Exception(13025)
+            raise Exception(13003)
         
         wdh = WorkbookDeLoader()
         ad_helper = adh.AnomalyDetection()

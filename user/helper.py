@@ -60,7 +60,7 @@ def handle_user_assignment_v2(datas, project_object, request):
             except User.DoesNotExist:
                 continue
         if not check_email(data["email"]):
-            raise Exception(12038)
+            raise Exception(12016)
 
         # Step 2: Fetch or Try to Fetch User
         try:
@@ -68,14 +68,14 @@ def handle_user_assignment_v2(datas, project_object, request):
             if project_object:
                 try:
                     UserProjectAssignment.objects.get(user_id=userObj.id, project=project_object)
-                    raise Exception(12056)
+                    raise Exception(12001)
                 except UserProjectAssignment.DoesNotExist:
                     userProject = UserProjectAssignment(user_id=userObj.id, project=project_object, is_admin=data["admin"])
                     userProject.save()
         except User.DoesNotExist:
             try:
                 userObj = User.objects.get(email__iexact=data["email"])
-                raise Exception(12050)
+                raise Exception(12002)
             except User.DoesNotExist:
                 pass
 

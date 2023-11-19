@@ -32,7 +32,7 @@ class ProjectView(AdminAPIView):
         sort_order = request.GET.get("order_by", None)
         project_name = request.GET.get("project_name", None)
         if project_name and len(project_name)<2:
-            raise Exception("Provide two or more characters for this filter", 12041)
+            raise Exception("Provide two or more characters for this filter", 12014)
         filterset = self.filterset_class(request.GET, queryset=Project.objects.filter(active=True).all())
         if not filterset.is_valid():
             return Response(filterset.errors, status=400)
@@ -90,7 +90,7 @@ class ProjectView(AdminAPIView):
         
         project = Project.objects.filter(project_name__iexact=project_name, active=True).first()
         if project:
-            raise Exception(12039)
+            raise Exception(12015)
 
         project = Project(project_name=project_name)
         project.save()
@@ -110,7 +110,7 @@ class ProjectView(AdminAPIView):
         to_update = data["to_update"]
         # Check if 'project_name' is not in the update data then raise an exception if it's missing.
         if "project_name" not in to_update:
-            raise Exception(13025)
+            raise Exception(13003)
         # Check if the given project exists in the 'Project' table then raise an exception if it does not.
         try:
             Project.objects.get(id=project_id)

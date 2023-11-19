@@ -3,7 +3,7 @@ import pymongo
 class MongoDbConnections:
     def __init__(self,url,dbName):
         if not url or not dbName:
-            raise Exception(11009)
+            raise Exception(11003)
         client = pymongo.MongoClient(url)
         self.database = client[dbName]
          

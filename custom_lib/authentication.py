@@ -12,7 +12,7 @@ class BaseAuthentication(authentication.BaseAuthentication):
         
         auth_header = request.headers.get("authorization", "")
         if not auth_header.startswith("Bearer "):
-            raise Exception(11014)
+            raise Exception(11006)
 
         userToken = auth_header[len("Bearer "):].strip()
         if userToken.startswith("b'") and userToken.endswith("'"):
@@ -38,7 +38,7 @@ class BaseAuthentication(authentication.BaseAuthentication):
             data = jwt.decode(token, 'ADITYA-SECRET', algorithms=['HS256'])
             jwt_user_id = data.get("userId", "")
             if not jwt_user_id:
-                raise Exception(11012)
+                raise Exception(11005)
             return jwt_user_id
         except:
             raise Exception(11001)
@@ -47,11 +47,11 @@ class BaseAuthentication(authentication.BaseAuthentication):
         try:
             user = User.objects.get(id=userId)
         except User.DoesNotExist:
-            raise Exception(11003)
+            raise Exception(11002)
 
         project = user.current_project
         if project==None:
-            raise Exception(11003)
+            raise Exception(11002)
         return user, project
 
 class PostLoginAuthentication(BaseAuthentication):
@@ -61,7 +61,7 @@ class PostUploadAuthentication(BaseAuthentication):
     def _post_authentication(self, request, projObj, userId):
         super()._post_authentication(request, projObj, userId)
         if projObj.namespace is None:
-            raise Exception(11010)
+            raise Exception(11004)
         request.namespace = projObj.namespace
 
 class AdminAuthentication(authentication.BaseAuthentication):
@@ -71,7 +71,7 @@ class AdminAuthentication(authentication.BaseAuthentication):
             db.connections.close_all()
             auth_header = request.headers.get("authorization", "")
             if not auth_header.startswith("Bearer "):
-                raise Exception(11014)
+                raise Exception(11006)
 
             userToken = auth_header[len("Bearer "):].strip()
             if userToken.startswith("b'") and userToken.endswith("'"):
@@ -80,14 +80,14 @@ class AdminAuthentication(authentication.BaseAuthentication):
                 data = jwt.decode(userToken, 'ADMIN-SECRET', algorithms=['HS256'])
                 userId = data.get("userId", "")
                 if not userId:
-                    raise Exception(11012)
+                    raise Exception(11005)
             except:
                 raise Exception(11001)
             
             try:
                 user = Admin.objects.get(id= userId)
             except Admin.DoesNotExist:
-                raise Exception(11003)
+                raise Exception(11002)
 
             request.userid = user.id
             request.session["basic_details"]={"user_id":user.pk}
