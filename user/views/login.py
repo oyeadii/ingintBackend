@@ -22,18 +22,18 @@ class LoginView(CustomAPIView):
         password = data.get("password","")
         
         if not email or not password:
-            raise Exception(13009)
+            raise Exception(12006) 
 
         userObjs = User.objects.filter(email__iexact=email)
         if not userObjs.exists():
-            raise Exception(13014)
+            raise Exception(12016)
         password = password.encode('utf-8')
         
         userObj=userObjs.first()
         userBytes = userObj.password.encode('utf-8')
         result = bcrypt.checkpw(password, userBytes)
         if not result:
-            raise Exception(13011)
+            raise Exception(12019)
         
         try:
             userObj.current_project
@@ -66,18 +66,18 @@ class AdminLoginView(CustomAPIView):
         password = data.get("password","")
         
         if not email or not password:
-            raise Exception(13012)
+            raise Exception(12006)
         
         suObj = Admin.objects.filter(email__iexact=email)
         if not suObj.exists():
-            raise Exception(13010) 
+            raise Exception(12016) 
 
         su=suObj.first()
         password = password.encode('utf-8')
         userBytes =su.password.encode('utf-8')
         result = bcrypt.checkpw(password,userBytes)
         if not result:
-            raise Exception(13011)
+            raise Exception(12019)
         id=su.pk
         payload = {
                    "exp" : datetime.utcnow() + timedelta(minutes=int(settings.JWT_EXPIRATION_IN_MINUTES)),
