@@ -43,9 +43,7 @@ Before you begin, ensure you have the following installed:
 6. Copy the .env.example file and rename it to .env. Edit the .env file and add the necessary environment variables specific to your project.
 
 7. Migrate the database:
-   ```bash
-   python manage.py migrate
-   ```
+   - Import the SQL dump present in db_dump folder to a MySQL database.
 
 8. Create a superuser account to access the Django admin interface (follow the prompts):
    - Run below SQL command in your SQL viewer.
